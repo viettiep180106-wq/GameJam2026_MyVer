@@ -4,6 +4,7 @@ public class ObjectMask : MonoBehaviour
 {
     [Header("Object")]
     [SerializeField] public Vector2 size = Vector2.one;
+    [SerializeField] public BoxCollider2D boxCollider;
 
     [Header("Border")]
     [SerializeField] private LineRenderer _lineRenderer;
@@ -15,6 +16,7 @@ public class ObjectMask : MonoBehaviour
 
     void Start() {
         _gridSize = CoverManager.Instance.CellSize;
+        boxCollider.size = size;
         SnapToGrid();
     }
 

@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
+  boxCollider: {fileID: 6700025887298109941}
   _lineRenderer: {fileID: 7167187758791325794}
   _lineWidth: 0.01
   _lineColor: {r: 0, g: 1, b: 1, a: 1}

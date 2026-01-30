@@ -9,8 +9,19 @@ public class InputManager : MonoBehaviour
     [SerializeField] private ObjectMask selectedMask;
     [SerializeField] private Vector3 offset;
 
+    [SerializeField] private Vector2 _minBound;
+    [SerializeField] private Vector2 _maxBound;
+
+    private void Start()
+    {
+        _minBound = CoverManager.Instance.MinBound;
+        _maxBound = CoverManager.Instance.MaxBound;
+    }
+
     private void Update()
     {
+        if (!CoverManager.Instance.IsGameStart) return;
+
         if (Input.GetMouseButtonDown(0)) PointerDown();
         if (Input.GetMouseButton(0)) PointerHold();
         if (Input.GetMouseButtonUp(0)) PointerUp();
@@ -34,9 +45,15 @@ public class InputManager : MonoBehaviour
         if (selectedMask == null) return;
 
         Vector3 mouseWorldPos = Utilities.GetMouseWorldPos();
-        selectedMask.transform.position = mouseWorldPos + offset;
-        selectedMask.transform.position =
-                new Vector3(selectedMask.transform.position.x, selectedMask.transform.position.y, 0);
+        Vector3 targetPos = mouseWorldPos + offset;
+        targetPos = new Vector3(targetPos.x, targetPos.y, 0);
+
+        float halfWidth = selectedMask.size.x / 2f;
+        float halfHeight = selectedMask.size.y / 2f;
+        targetPos.x = Mathf.Clamp(targetPos.x, _minBound.x + halfWidth, _maxBound.x - halfWidth);
+        targetPos.y = Mathf.Clamp(targetPos.y, _minBound.y + halfHeight, _maxBound.y - halfHeight);
+
+        selectedMask.transform.position = targetPos;
         selectedMask.SnapToGrid();
 
         ShowAllBound();
