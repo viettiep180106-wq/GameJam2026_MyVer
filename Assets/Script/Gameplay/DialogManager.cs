@@ -73,7 +73,6 @@ public class DialogManager : Singleton<DialogManager>
     {
         if (typingRoutine != null)
             StopCoroutine(typingRoutine);
-
         typingRoutine = StartCoroutine(TypeText(content));
     }
 
@@ -86,6 +85,7 @@ public class DialogManager : Singleton<DialogManager>
         {
             dialogText.text += c;
             Debug.Log(c);
+
             //if (!char.IsWhiteSpace(c))
                 //audioSource.PlayOneShot(typeSound);
             yield return new WaitForSeconds(typingSpeed);

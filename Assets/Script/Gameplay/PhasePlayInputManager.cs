@@ -66,7 +66,7 @@ public class PhasePlayInputManager : MonoBehaviour
     private void PointerUp()
     {
         if (selectedMask == null) return;
-
+        AudioManager.Instance.Play(GameSound.throwMask);
         selectedMask.SnapToGrid();
         selectedMask = null;
 

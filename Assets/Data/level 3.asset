@@ -50,47 +50,35 @@ MonoBehaviour:
     prefab: {fileID: 4338577786130136374, guid: 5ce93bbd7db0b46deb9cbe78eeefe302, type: 3}
   entries:
   - gemData:
-      gemType: 0
-      gemBaseValue: 2
-    count: 4
-  - gemData:
       gemType: 1
       gemBaseValue: 2
     count: 4
   - gemData:
       gemType: 2
       gemBaseValue: 2
-    count: 4
-  - gemData:
-      gemType: 3
-      gemBaseValue: 2
-    count: 4
-  - gemData:
-      gemType: 0
-      gemBaseValue: 3
-    count: 2
-  - gemData:
-      gemType: 1
-      gemBaseValue: 3
-    count: 2
-  - gemData:
-      gemType: 2
-      gemBaseValue: 3
     count: 3
   - gemData:
       gemType: 3
-      gemBaseValue: 3
+      gemBaseValue: 2
     count: 3
   - gemData:
       gemType: 0
-      gemBaseValue: 4
+      gemBaseValue: 3
     count: 2
   - gemData:
       gemType: 1
-      gemBaseValue: 4
+      gemBaseValue: 3
     count: 2
   - gemData:
-      gemType: 2
+      gemType: 3
+      gemBaseValue: 3
+    count: 2
+  - gemData:
+      gemType: 0
+      gemBaseValue: 4
+    count: 3
+  - gemData:
+      gemType: 1
       gemBaseValue: 4
     count: 2
   - gemData:
@@ -102,18 +90,10 @@ MonoBehaviour:
       gemBaseValue: 5
     count: 2
   - gemData:
-      gemType: 3
-      gemBaseValue: 5
-    count: 2
-  - gemData:
       gemType: 2
-      gemBaseValue: 6
+      gemBaseValue: 5
     count: 1
   - gemData:
       gemType: 3
       gemBaseValue: 6
-    count: 1
-  - gemData:
-      gemType: 0
-      gemBaseValue: 7
     count: 1

@@ -74,6 +74,7 @@ public class GamePlayManager : Singleton<GamePlayManager>
     public void AddScore(int amount)
     {
         int newScore = score + amount;
+        AudioManager.Instance.Play(GameSound.score);
         scoreEffect.AddScore(score, newScore);
         score = newScore;
     }
@@ -81,6 +82,7 @@ public class GamePlayManager : Singleton<GamePlayManager>
     public void AddEnemyScore(int amount)
     {
         int newScore = enemyScore + amount;
+        AudioManager.Instance.Play(GameSound.score);
         enemyScoreEffect.AddScore(enemyScore, newScore);
         enemyScore = newScore;
     }

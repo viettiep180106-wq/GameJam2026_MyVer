@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: level 1
   m_EditorClassIdentifier: 
   maskEntries:
-  - maskPrefab: {fileID: 788597668884690560, guid: cf6f62b4051884f94a6ea310f9b7b031, type: 3}
-    spawnPosition: {x: -1, y: 2.5, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: cf6f62b4051884f94a6ea310f9b7b031, type: 3}
-    spawnPosition: {x: 1, y: 2.5, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: -1, y: 1, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
-    spawnPosition: {x: 1, y: 1, z: 0}
+    spawnPosition: {x: 0.6, y: 0.35, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: c6822ef9bb3f04894b4aeb59d8a2a032, type: 3}
-    spawnPosition: {x: 1, y: -1.5, z: 0}
+    spawnPosition: {x: -1.02, y: 0.06, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
-    spawnPosition: {x: -1, y: -1.5, z: 0}
-  maxMaskBox1: 3
-  maxMaskBox2: 3
-  cardPrefabs:
-  - {fileID: 4527529053640094912, guid: ad14d44bfed3b43d1a75adb55c6f9b75, type: 3}
-  - {fileID: 4527529053640094912, guid: 817f4d9c99b3541ea8fc67f39a1bdc2d, type: 3}
-  - {fileID: 4527529053640094912, guid: 0c69983926a8b4e7e92c565877646af4, type: 3}
+    spawnPosition: {x: 1.03, y: 1.93, z: 0}
+  - maskPrefab: {fileID: 0}
+    spawnPosition: {x: 0, y: 0, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
+    spawnPosition: {x: 1.09, y: -1.94, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
+    spawnPosition: {x: -0.63, y: -1.93, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
+    spawnPosition: {x: 0.59, y: -0.79, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
+    spawnPosition: {x: -0.63, y: 1.9, z: 0}
+  maxMaskBox1: 5
+  maxMaskBox2: 5
   prefabLibrary:
   - gemType: 0
     prefab: {fileID: 4338577786130136374, guid: 428417201529943c2ab476047adf39ef, type: 3}
@@ -44,47 +44,35 @@ MonoBehaviour:
   - gemData:
       gemType: 0
       gemBaseValue: 1
-    count: 4
+    count: 3
+  - gemData:
+      gemType: 2
+      gemBaseValue: 1
+    count: 3
+  - gemData:
+      gemType: 1
+      gemBaseValue: 1
+    count: 3
+  - gemData:
+      gemType: 3
+      gemBaseValue: 2
+    count: 2
   - gemData:
       gemType: 0
       gemBaseValue: 2
     count: 2
   - gemData:
+      gemType: 2
+      gemBaseValue: 2
+    count: 1
+  - gemData:
+      gemType: 1
+      gemBaseValue: 3
+    count: 1
+  - gemData:
       gemType: 0
       gemBaseValue: 3
     count: 1
-  - gemData:
-      gemType: 1
-      gemBaseValue: 1
-    count: 4
-  - gemData:
-      gemType: 1
-      gemBaseValue: 2
-    count: 2
-  - gemData:
-      gemType: 1
-      gemBaseValue: 3
-    count: 1
-  - gemData:
-      gemType: 2
-      gemBaseValue: 1
-    count: 4
-  - gemData:
-      gemType: 2
-      gemBaseValue: 2
-    count: 2
-  - gemData:
-      gemType: 2
-      gemBaseValue: 3
-    count: 1
-  - gemData:
-      gemType: 3
-      gemBaseValue: 1
-    count: 4
-  - gemData:
-      gemType: 3
-      gemBaseValue: 2
-    count: 2
   - gemData:
       gemType: 3
       gemBaseValue: 3

@@ -14,27 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskEntries:
   - maskPrefab: {fileID: 788597668884690560, guid: cf6f62b4051884f94a6ea310f9b7b031, type: 3}
-    spawnPosition: {x: 0.03, y: -2.49, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: -1.16, y: 2.31, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: -1.16, y: 1.5, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
-    spawnPosition: {x: 1.2, y: 0.35, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: c6822ef9bb3f04894b4aeb59d8a2a032, type: 3}
-    spawnPosition: {x: 1.18, y: -1.62, z: 0}
+    spawnPosition: {x: -0.28, y: 0.54, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
-    spawnPosition: {x: 1.5, y: 1.96, z: 0}
-  - maskPrefab: {fileID: 788597668884690560, guid: 704a112ba82dc4cdd91a1de061f7b24b, type: 3}
-    spawnPosition: {x: -0.76, y: 0.28, z: 0}
+    spawnPosition: {x: -1.17, y: 0.91, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: -1.16, y: -2.48, z: 0}
+    spawnPosition: {x: -0.81, y: -0.4, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: c6822ef9bb3f04894b4aeb59d8a2a032, type: 3}
+    spawnPosition: {x: 0.92, y: -0.11, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 704a112ba82dc4cdd91a1de061f7b24b, type: 3}
-    spawnPosition: {x: -0.77, y: -1.27, z: 0}
+    spawnPosition: {x: 0.52, y: 1.83, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
-    spawnPosition: {x: 0.35, y: 1.96, z: 0}
-  maxMaskBox1: 5
-  maxMaskBox2: 5
+    spawnPosition: {x: -0.89, y: -1.64, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
+    spawnPosition: {x: 0.85, y: -1.83, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: cf6f62b4051884f94a6ea310f9b7b031, type: 3}
+    spawnPosition: {x: -1.13, y: 2.21, z: 0}
+  maxMaskBox1: 3
+  maxMaskBox2: 3
   prefabLibrary:
   - gemType: 0
     prefab: {fileID: 4338577786130136374, guid: 428417201529943c2ab476047adf39ef, type: 3}
@@ -47,65 +43,49 @@ MonoBehaviour:
   entries:
   - gemData:
       gemType: 0
-      gemBaseValue: 2
-    count: 4
-  - gemData:
-      gemType: 1
-      gemBaseValue: 2
-    count: 5
-  - gemData:
-      gemType: 2
-      gemBaseValue: 2
-    count: 5
-  - gemData:
-      gemType: 3
-      gemBaseValue: 2
-    count: 4
-  - gemData:
-      gemType: 0
-      gemBaseValue: 3
-    count: 3
-  - gemData:
-      gemType: 1
-      gemBaseValue: 3
-    count: 2
-  - gemData:
-      gemType: 2
-      gemBaseValue: 3
-    count: 2
-  - gemData:
-      gemType: 3
-      gemBaseValue: 3
+      gemBaseValue: 1
     count: 3
   - gemData:
       gemType: 0
-      gemBaseValue: 4
+      gemBaseValue: 2
+    count: 2
+  - gemData:
+      gemType: 0
+      gemBaseValue: 3
+    count: 1
+  - gemData:
+      gemType: 1
+      gemBaseValue: 1
+    count: 3
+  - gemData:
+      gemType: 1
+      gemBaseValue: 2
     count: 2
   - gemData:
       gemType: 1
-      gemBaseValue: 4
+      gemBaseValue: 3
+    count: 1
+  - gemData:
+      gemType: 2
+      gemBaseValue: 1
     count: 3
   - gemData:
       gemType: 2
-      gemBaseValue: 4
-    count: 3
-  - gemData:
-      gemType: 3
-      gemBaseValue: 4
+      gemBaseValue: 2
     count: 2
   - gemData:
-      gemType: 1
-      gemBaseValue: 5
-    count: 1
-  - gemData:
-      gemType: 3
-      gemBaseValue: 5
-    count: 1
-  - gemData:
       gemType: 2
-      gemBaseValue: 6
+      gemBaseValue: 3
     count: 1
   - gemData:
       gemType: 3
-      gemBaseValue: 6
+      gemBaseValue: 1
+    count: 3
+  - gemData:
+      gemType: 3
+      gemBaseValue: 2
+    count: 2
+  - gemData:
+      gemType: 3
+      gemBaseValue: 3
     count: 1

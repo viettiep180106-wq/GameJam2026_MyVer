@@ -169,6 +169,9 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
 
         // Đảm bảo Coroutine quét cuối cùng đã xong hoặc ép xung quét một lần cuối
         // Ở đây ta gọi hàm tính điểm
+
+        AudioManager.Instance.Play(GameSound.clickButton);
+
         ForceUpdateAllCoverage();
         StartCoroutine(CalculateFinalScoreRoutine());
 
@@ -289,13 +292,13 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
 
     private void ExecuteSpawnInward()
     {
+        AudioManager.Instance.Play(GameSound.releaseItem);
         foreach (var obj in objects)
         {
             DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
             {
                 Rigidbody2D rb = obj.Body;
                 if (rb == null) return;
-
                 // Kích hoạt vật lý
                 rb.simulated = true;
                 rb.velocity = Vector2.zero;
