@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Security.Cryptography;
 using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
+using System;
 
 public class PhasePlayManager : Singleton<PhasePlayManager>
 {
@@ -45,10 +46,6 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
     [SerializeField] private LevelData _currentLevelData;
 
     [SerializeField] private Button playMaskButton;
-
-    public bool IsObjectCovered(ObjectItem obj)
-            => _coverageResults.TryGetValue(obj, out bool covered) && covered;
-
     [SerializeField] private bool _isGameStart;
     public bool IsGameStart => _isGameStart;
 
@@ -59,16 +56,20 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
     [SerializeField] private float maxTime = 30f;
     //sprivate bool _isTimerRunning = false;
 
-    private void Awake()
-    {
-        playMaskButton.onClick.AddListener(PlayMask);
-    }
+    bool timer3sWarning = false;
+
+    public bool IsObjectCovered(ObjectItem obj)
+            => _coverageResults.TryGetValue(obj, out bool covered) && covered;
 
     public void Init()
     {
         if (GamePlayManager.Instance.CurrentPhase != GamePhase.Play) return;
 
+        playMaskButton.onClick.RemoveAllListeners();
+        playMaskButton.onClick.AddListener(PlayMask);
+
         _isGameStart = false;
+        timer3sWarning = false;
         timeRemaining = maxTime;
         _currentLevelData = GamePlayManager.Instance.CurrentLevelData;
         currentBuffs = new();
@@ -110,6 +111,12 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
             timeRemaining -= Time.deltaTime;
             timerFillBar.fillAmount = timeRemaining / maxTime;
             timerText.text = $"{(int)timeRemaining}s";
+
+            if (timeRemaining < 3f && !timer3sWarning)
+            {
+                timer3sWarning = true;
+                AudioManager.Instance.Play(GameSound.clock3sLast);
+            }
 
             return;
         }
@@ -182,7 +189,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         {
             if (!IsObjectCovered(obj))
             {
-                DOVirtual.DelayedCall(Random.Range(0f, 0.6f), () =>
+                DOVirtual.DelayedCall(UnityEngine.Random.Range(0f, 0.6f), () =>
                 {
                     obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
                 });
@@ -203,7 +210,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
             else
             {
                 enemyItems.Add(obj);
-                DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+                DOVirtual.DelayedCall(UnityEngine.Random.Range(0f, 0.5f), () =>
                 {
                     obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
                 });
@@ -223,21 +230,12 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
 
         GamePlayManager.Instance.StateHeath();
 
-        yield return new WaitForSeconds(5f);
-
         foreach (var obj in objects) if (obj != null) Destroy(obj.gameObject);
         objects.Clear();
         foreach (var m in masks)
         {
             if (m != null) Destroy(m.gameObject);
         }
-
-        GamePlayManager.Instance.GoToSelectMask();
-
-
-
-
-
     }
 
     private IEnumerator ProcessScoreGroup(List<ObjectItem> items, bool isPlayer)
@@ -270,7 +268,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
                 foreach (var buff in relevantBuffs)
                     if (buff.gemBuffType == GemBuffType.Multiple) finalScore *= buff.value;
 
-                int scoreValue = Mathf.RoundToInt(finalScore);
+                int scoreValue = Math.Max(Mathf.RoundToInt(finalScore), 0);
 
                 GamePlayManager.Instance.AddScore(scoreValue);
 
@@ -295,7 +293,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         AudioManager.Instance.Play(GameSound.releaseItem);
         foreach (var obj in objects)
         {
-            DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+            DOVirtual.DelayedCall(UnityEngine.Random.Range(0f, 0.5f), () =>
             {
                 Rigidbody2D rb = obj.Body;
                 if (rb == null) return;
@@ -316,7 +314,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
             });
         }
 
-        DOVirtual.DelayedCall(1f, () => {
+        DOVirtual.DelayedCall(1.5f, () => {
             // Logic thực thi tại đây
             foreach (var obj in objects)
             {

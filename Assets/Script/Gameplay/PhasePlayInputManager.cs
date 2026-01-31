@@ -41,6 +41,7 @@ public class PhasePlayInputManager : MonoBehaviour
         selectedMask = hit.collider.GetComponent<ObjectMask>();
         if (selectedMask == null) return;
 
+        AudioManager.Instance.Play(GameSound.throwMask);
         offset = selectedMask.transform.position - (Vector3)mouseWorldPos;
     }
 
@@ -66,7 +67,6 @@ public class PhasePlayInputManager : MonoBehaviour
     private void PointerUp()
     {
         if (selectedMask == null) return;
-        AudioManager.Instance.Play(GameSound.throwMask);
         selectedMask.SnapToGrid();
         selectedMask = null;
 
