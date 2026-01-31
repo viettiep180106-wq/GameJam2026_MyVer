@@ -27,6 +27,10 @@ MonoBehaviour:
     spawnPosition: {x: -1, y: -1.5, z: 0}
   maxMaskBox1: 3
   maxMaskBox2: 3
+  cardPrefabs:
+  - {fileID: 4527529053640094912, guid: ad14d44bfed3b43d1a75adb55c6f9b75, type: 3}
+  - {fileID: 4527529053640094912, guid: 817f4d9c99b3541ea8fc67f39a1bdc2d, type: 3}
+  - {fileID: 4527529053640094912, guid: 0c69983926a8b4e7e92c565877646af4, type: 3}
   prefabLibrary:
   - gemType: 0
     prefab: {fileID: 4338577786130136374, guid: 428417201529943c2ab476047adf39ef, type: 3}

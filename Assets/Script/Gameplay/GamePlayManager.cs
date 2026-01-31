@@ -1,12 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using TMPro;
 
 public enum GamePhase
 {
-    SelectMask,
+    Select,
     Play,
-    SelectBuffs,
+    Buff,
     Result
 }
 
@@ -29,9 +30,69 @@ public class GamePlayManager : Singleton<GamePlayManager>
     [SerializeField] private LevelData currentLevelData;
     public LevelData CurrentLevelData => currentLevelData;
 
+    [Header("Info")]
+    [SerializeField] private int score;
+    [SerializeField] private int enemyScore;
+    public int Score => score;
+    public int EnemyScore => enemyScore;
+    [SerializeField] private int hp;
+    [SerializeField] private int enemyHp;
+    public int HP => hp;
+    public int EnemyHP => enemyHp;
+    [SerializeField] private ScoreEffect scoreEffect;
+    [SerializeField] private ScoreEffect enemyScoreEffect;
+
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI enemyHpText;
+
+    public void StateHeath()
+    {
+        if (Score >= EnemyScore)
+        {
+            enemyHp--;
+            enemyHpText.text = enemyHp.ToString();
+        }
+        else
+        {
+            hp--;
+            hpText.text = hp.ToString();
+        }
+    }
+
+    public void ResetScore()
+    {
+        score = 0;
+        scoreEffect.SetScore(score);
+    }
+
+    public void ResetEnemyScore()
+    {
+        enemyScore = 0;
+        enemyScoreEffect.SetScore(score);
+    }
+
+    public void AddScore(int amount)
+    {
+        int newScore = score + amount;
+        scoreEffect.AddScore(score, newScore);
+        score = newScore;
+    }
+
+    public void AddEnemyScore(int amount)
+    {
+        int newScore = enemyScore + amount;
+        enemyScoreEffect.AddScore(enemyScore, newScore);
+        enemyScore = newScore;
+    }
+
     private void Start()
     {
-        ChangePhase(GamePhase.SelectMask);
+        ResetScore(); ResetEnemyScore();
+        enemyHp = 3;
+        enemyHpText.text = enemyHp.ToString();
+        hp = 3;
+        hpText.text = hp.ToString();
+        ChangePhase(GamePhase.Select);
     }
 
     public void ChangePhase(GamePhase newPhase)
@@ -54,12 +115,14 @@ public class GamePlayManager : Singleton<GamePlayManager>
     {
         switch (phase)
         {
-            case GamePhase.SelectMask:
+            case GamePhase.Select:
+                ResetScore(); ResetEnemyScore();
+                PhaseSelectManager.Instance.Init();
                 break;
             case GamePhase.Play:
                 PhasePlayManager.Instance.Init();
                 break;
-            case GamePhase.SelectBuffs:
+            case GamePhase.Buff:
                 // Hiển thị danh sách buff cho người chơi chọn
                 break;
             case GamePhase.Result:
@@ -69,8 +132,8 @@ public class GamePlayManager : Singleton<GamePlayManager>
     }
 
     // Shortcut methods cho UI Buttons
-    public void GoToSelectMask() => ChangePhase(GamePhase.SelectMask);
+    public void GoToSelectMask() => ChangePhase(GamePhase.Select);
     public void GoToPlay() => ChangePhase(GamePhase.Play);
-    public void GoToSelectBuffs() => ChangePhase(GamePhase.SelectBuffs);
+    public void GoToSelectBuffs() => ChangePhase(GamePhase.Buff);
     public void GoToResult() => ChangePhase(GamePhase.Result);
 }

@@ -20,7 +20,11 @@ public class PhasePlayInputManager : MonoBehaviour
 
     private void Update()
     {
-        if (!PhasePlayManager.Instance.IsGameStart) return;
+        if (!PhasePlayManager.Instance.IsGameStart)
+        {
+            HideAllBound();
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0)) PointerDown();
         if (Input.GetMouseButton(0)) PointerHold();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.UI;
 using System.Security.Cryptography;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PhasePlayManager : Singleton<PhasePlayManager>
 {
@@ -50,6 +51,12 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
     [SerializeField] private bool _isGameStart;
     public bool IsGameStart => _isGameStart;
 
+    [Header("Status")]
+    [SerializeField] private Image timerFillBar;
+    [SerializeField] private float timeRemaining = 30f;
+    [SerializeField] private float maxTime = 30f;
+    //sprivate bool _isTimerRunning = false;
+
     private void Awake()
     {
         playMaskButton.onClick.AddListener(PlayMask);
@@ -60,13 +67,24 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         if (GamePlayManager.Instance.CurrentPhase != GamePhase.Play) return;
 
         _isGameStart = false;
+        timeRemaining = maxTime;
         _currentLevelData = GamePlayManager.Instance.CurrentLevelData;
+        currentBuffs = new();
 
-        objects.Clear();
-        _coverageResults.Clear();
+        for (int i = 0; i < PhaseSelectManager.Instance.Cards.Count; i++)
+        {
+            Card card = PhaseSelectManager.Instance.Cards[i];
+            if (card == null) continue;
+            // Chạy hiệu ứng lật thẻ tại Play Phase
+            DOVirtual.DelayedCall(i * 0.15f, () => card.OnClickFlip());
+            currentBuffs.Add(card.CardData.gemBuff);
+        }
 
-        LoadLevel(_currentLevelData);
-        ExecuteSpawnInward();
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            LoadLevel(_currentLevelData);
+            ExecuteSpawnInward();
+        });
     }
 
     private void Update()
@@ -77,6 +95,25 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         {
             StartCoroutine(CheckAllCoverageRoutine());
         }
+
+        HandleTimer();
+    }
+
+    private void HandleTimer()
+    {
+        if (timeRemaining > 0)
+        {
+            timeRemaining -= Time.deltaTime;
+            timerFillBar.fillAmount = timeRemaining / maxTime;
+
+            return;
+        }
+
+        timeRemaining = 0;
+        if (timerFillBar != null) timerFillBar.fillAmount = 0;
+
+        // Tự động kết thúc trò chơi khi hết giờ
+        PlayMask();
     }
 
     public void LoadLevel(LevelData data)
@@ -106,36 +143,6 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
             }
         }
 
-        // // 1. Dọn dẹp danh sách cũ
-        // foreach (var obj in objects)
-        // {
-        //     if (obj != null) Destroy(obj.gameObject);
-        // }
-        // objects = new();
-        // _coverageResults = new();
-
-        // // 2. Nạp dữ liệu mới
-        // foreach (var entry in data.entries)
-        // {
-        //     GameObject prefab = data.GetPrefab(entry.gemData.gemType);
-
-        //     if (prefab == null) continue;
-
-        //     // Instantiate prefab tại vị trí lưu trong data
-        //     GameObject go = Instantiate(prefab);
-        //     go.transform.SetParent(objectContainer);
-        //     go.transform.localPosition = entry.position;
-        //     ObjectItem item = go.GetComponent<ObjectItem>();
-
-        //     if (item != null)
-        //     {
-        //         // Gán dữ liệu Gem từ entry vào ObjectItem
-        //         // Cần đảm bảo ObjectItem có hàm/trường public để gán GemData
-        //         item.Init(entry.gemData);
-        //         objects.Add(item);
-        //     }
-        // }
-
         // mask
         foreach (var m in masks)
         {
@@ -156,118 +163,113 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
 
         // Đảm bảo Coroutine quét cuối cùng đã xong hoặc ép xung quét một lần cuối
         // Ở đây ta gọi hàm tính điểm
-        int finalScore = CalculateFinalScore();
+        ForceUpdateAllCoverage();
+        StartCoroutine(CalculateFinalScoreRoutine());
 
-        Debug.Log($"Final Score: {finalScore}");
+        //Debug.Log($"Final Score: {GamePlayManager.Instance.Score}");
 
         // Hiệu ứng cho các item được chọn (ví dụ: biến mất hoặc bay về kho)
         foreach (var obj in objects)
         {
-            if (IsObjectCovered(obj))
+            if (!IsObjectCovered(obj))
             {
-                obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
+                DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+                {
+                    obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
+                });
             }
         }
     }
 
-    private int CalculateFinalScore()
+    private IEnumerator CalculateFinalScoreRoutine()
     {
-        // 1. Lọc ra các item đã bị phủ kín hoàn toàn
-        List<ObjectItem> coveredItems = new List<ObjectItem>();
+        // --- PHẦN 1: PHÂN LOẠI ITEM ---
+        List<ObjectItem> playerItems = new List<ObjectItem>();
+        List<ObjectItem> enemyItems = new List<ObjectItem>();
+
         foreach (var obj in objects)
         {
-            if (IsObjectCovered(obj)) coveredItems.Add(obj);
+            if (IsObjectCovered(obj))
+                playerItems.Add(obj);
+            else
+            {
+                enemyItems.Add(obj);
+                DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+                {
+                    obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
+                });
+            }
         }
 
-        // 2. Gom nhóm giá trị theo GemType
+        // --- PHẦN 3: TÍNH ĐIỂM CHO ENEMY (ITEM BỊ THU NHỎ) ---
+        yield return StartCoroutine(ProcessScoreGroup(enemyItems, isPlayer: false));
+
+        // Nghỉ một nhịp giữa hai lần tính điểm
+        yield return new WaitForSeconds(0.5f);
+
+        // --- PHẦN 2: TÍNH ĐIỂM CHO NGƯỜI CHƠI ---
+        yield return StartCoroutine(ProcessScoreGroup(playerItems, isPlayer: true));
+
+        Debug.Log("All calculations finished.");
+
+        GamePlayManager.Instance.StateHeath();
+
+        yield return new WaitForSeconds(5f);
+        GamePlayManager.Instance.GoToSelectMask();
+    }
+
+    private IEnumerator ProcessScoreGroup(List<ObjectItem> items, bool isPlayer)
+    {
+        // Gom nhóm theo Type
         Dictionary<GemType, int> typeScores = new Dictionary<GemType, int>();
-        foreach (ObjectItem item in coveredItems)
+        foreach (var item in items)
         {
             if (!typeScores.ContainsKey(item.GemType)) typeScores[item.GemType] = 0;
             typeScores[item.GemType] += item.GemBaseValue;
         }
 
-        int totalScore = 0;
+        if (isPlayer) GamePlayManager.Instance.ResetScore();
+        else GamePlayManager.Instance.ResetEnemyScore();
 
-        // 3. Áp dụng Buff theo từng loại GemType
-        foreach (var kvp in typeScores)
+
+        if (isPlayer)
         {
-            GemType type = kvp.Key;
-            float currentTypeScore = kvp.Value;
-
-            // Tìm tất cả buff liên quan đến GemType này
-            List<GemBuff> relevantBuffs = currentBuffs.FindAll(b => b.gemType == type);
-
-            // Ưu tiên tính các buff Cộng trước, Nhân sau
-            // Cộng (Plus)
-            foreach (var buff in relevantBuffs)
+            foreach (var kvp in typeScores)
             {
-                if (buff.gemBuffType == GemBuffType.Plus)
-                    currentTypeScore += buff.value;
-            }
+                GemType type = kvp.Key;
+                float finalScore = kvp.Value;
 
-            // Nhân (Multiple)
-            foreach (var buff in relevantBuffs)
-            {
-                if (buff.gemBuffType == GemBuffType.Multiple)
-                    currentTypeScore *= buff.value;
-            }
+                // Áp dụng Buff (Ví dụ hiện tại dùng chung List Buff, có thể tách nếu cần)
+                List<GemBuff> relevantBuffs = currentBuffs.FindAll(b => b.gemType == type);
 
-            totalScore += Mathf.RoundToInt(currentTypeScore);
+                foreach (var buff in relevantBuffs)
+                    if (buff.gemBuffType == GemBuffType.Plus) finalScore += buff.value;
+
+                foreach (var buff in relevantBuffs)
+                    if (buff.gemBuffType == GemBuffType.Multiple) finalScore *= buff.value;
+
+                int scoreValue = Mathf.RoundToInt(finalScore);
+
+                GamePlayManager.Instance.AddScore(scoreValue);
+
+                Debug.Log($"{(isPlayer ? "Player" : "Enemy")} added {scoreValue} pts for {type}");
+                yield return new WaitForSeconds(0.4f);
+            }
         }
-
-        return totalScore;
+        else
+        {
+            foreach (var kvp in typeScores)
+            {
+                float finalScore = kvp.Value;
+                int scoreValue = Mathf.RoundToInt(finalScore);
+                GamePlayManager.Instance.AddEnemyScore(scoreValue);
+                yield return new WaitForSeconds(0.4f);
+            }
+        }
     }
 
     private void ExecuteSpawnInward()
     {
-        // foreach (var obj in objects)
-        // {
-        //     if (obj == null) continue;
-
-        //     Vector3 targetPos = obj.transform.position;
-        //     Vector3 direction = ((targetPos - center) * -1).normalized;
-        //     Vector3 directionRand = new(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0);
-        //     float distToCenter = Vector3.Distance(targetPos, center);
-
-        //     // Tính toán vị trí xuất phát ngoài biên
-        //     Vector3 startPos = targetPos + (direction + directionRand) * (_spawnBoundRadius + distToCenter * _distanceMultiplier);
-
-        //     // Set vị trí ban đầu và bắt đầu Tween
-        //     obj.transform.position = startPos;
-        //     obj.transform.DOMove(targetPos, _duration)
-        //         .SetEase(_moveEase)
-        //         .OnComplete(() => {
-        //             // Đánh dấu hoàn tất khi object cuối cùng về đích
-        //             if (obj == objects[objects.Count - 1]) _isGameStart = true;
-        //         });
-        // }
-
-        // foreach (var obj in objects)
-        // {
-        //     obj.transform.position = center;
-
-        //     Rigidbody2D rb = obj.Body;
-        //     rb.simulated = true;
-        //     rb.velocity = Vector2.zero;
-        //     if (rb == null) continue;
-
-        //     // 1. Tính toán hướng: Từ tâm bàn đến vị trí item
-        //     // Vector2 direction = (rb.transform.position - center).normalized;
-
-        //     // // 2. Thêm một chút ngẫu nhiên để không bị bắn theo đường thẳng tắp
-        //     // direction += new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
-
-        //     Vector2 direction = new Vector2(Random.Range(-180f, 180f), Random.Range(-180f, 180f));
-        //     obj.transform.position += (Vector3)direction.normalized * 1f;
-
-        //     // 3. Tác động lực (ForceMode2D.Impulse cho lực tức thời)
-        //     rb.AddForce(direction.normalized * Random.Range(1f, 5f), ForceMode2D.Impulse);
-
-        //     // 4. Thêm lực xoay để tạo cảm giác tự nhiên
-        //     rb.AddTorque(Random.Range(-10f, 10f), ForceMode2D.Impulse);
-        // }
-
         foreach (var obj in objects)
         {
             Rigidbody2D rb = obj.Body;
@@ -297,6 +299,56 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
             }
             _isGameStart = true;
         });
+    }
+
+    private void ForceUpdateAllCoverage()
+    {
+        HashSet<Vector2Int> maskedCells = GetMaskedCells(masks);
+
+        foreach (var target in objects)
+        {
+            if (target == null) continue;
+
+            Vector2[] vertices = target.GetWorldPoints();
+            if (vertices.Length < 3)
+            {
+                _coverageResults[target] = false;
+                continue;
+            }
+
+            float minY = float.MaxValue, maxY = float.MinValue;
+            foreach (var v in vertices)
+            {
+                if (v.y < minY) minY = v.y;
+                if (v.y > maxY) maxY = v.y;
+            }
+
+            int startGY = Mathf.FloorToInt(minY / _cellSize);
+            int endGY = Mathf.FloorToInt(maxY / _cellSize);
+
+            bool isCurrentCovered = true;
+
+            for (int gy = startGY; gy <= endGY; gy++)
+            {
+                float yCenter = (gy + 0.5f) * _cellSize;
+                if (TryGetXRange(vertices, yCenter, out float xMin, out float xMax))
+                {
+                    int startGX = Mathf.FloorToInt((xMin + 0.001f) / _cellSize);
+                    int endGX = Mathf.FloorToInt((xMax - 0.001f) / _cellSize);
+
+                    for (int gx = startGX; gx <= endGX; gx++)
+                    {
+                        if (!maskedCells.Contains(new Vector2Int(gx, gy)))
+                        {
+                            isCurrentCovered = false;
+                            break;
+                        }
+                    }
+                }
+                if (!isCurrentCovered) break;
+            }
+            _coverageResults[target] = isCurrentCovered;
+        }
     }
 
     private IEnumerator CheckAllCoverageRoutine()

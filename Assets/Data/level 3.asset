@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482cc023551e41e1870a08d06e191ed, type: 3}
+  m_Name: level 3
+  m_EditorClassIdentifier: 
+  maskEntries:
+  - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
+    spawnPosition: {x: -1.49, y: -2.16, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 6b7eda80c74bf43a6834f253661df59f, type: 3}
+    spawnPosition: {x: -0.62, y: -1.84, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
+    spawnPosition: {x: -0.28, y: 2.23, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: c6822ef9bb3f04894b4aeb59d8a2a032, type: 3}
+    spawnPosition: {x: 1.27, y: 1.86, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
+    spawnPosition: {x: -1.5, y: 2.25, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 704a112ba82dc4cdd91a1de061f7b24b, type: 3}
+    spawnPosition: {x: -6.99, y: 2.97, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: d47133626eeb5405e8b3eb4023a4d6e4, type: 3}
+    spawnPosition: {x: 0.89, y: 0.35, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: d47133626eeb5405e8b3eb4023a4d6e4, type: 3}
+    spawnPosition: {x: 0.91, y: -0.4, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: ed7f6e533b61f4e20839275dce2b6aa9, type: 3}
+    spawnPosition: {x: 0.88, y: -1.86, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
+    spawnPosition: {x: -0.64, y: -0.02, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 6b7eda80c74bf43a6834f253661df59f, type: 3}
+    spawnPosition: {x: -1.47, y: -0.35, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: d47133626eeb5405e8b3eb4023a4d6e4, type: 3}
+    spawnPosition: {x: -0.73, y: 1.11, z: 0}
+  maxMaskBox1: 6
+  maxMaskBox2: 5
+  prefabLibrary:
+  - gemType: 0
+    prefab: {fileID: 4338577786130136374, guid: 428417201529943c2ab476047adf39ef, type: 3}
+  - gemType: 1
+    prefab: {fileID: 4338577786130136374, guid: 92e2454dc8b664f3597d5287a13c900f, type: 3}
+  - gemType: 2
+    prefab: {fileID: 4338577786130136374, guid: 3e624e8847cc3477b97b0948e6945517, type: 3}
+  - gemType: 3
+    prefab: {fileID: 4338577786130136374, guid: 5ce93bbd7db0b46deb9cbe78eeefe302, type: 3}
+  entries:
+  - gemData:
+      gemType: 0
+      gemBaseValue: 2
+    count: 4
+  - gemData:
+      gemType: 1
+      gemBaseValue: 2
+    count: 4
+  - gemData:
+      gemType: 2
+      gemBaseValue: 2
+    count: 4
+  - gemData:
+      gemType: 3
+      gemBaseValue: 2
+    count: 4
+  - gemData:
+      gemType: 0
+      gemBaseValue: 3
+    count: 2
+  - gemData:
+      gemType: 1
+      gemBaseValue: 3
+    count: 2
+  - gemData:
+      gemType: 2
+      gemBaseValue: 3
+    count: 3
+  - gemData:
+      gemType: 3
+      gemBaseValue: 3
+    count: 3
+  - gemData:
+      gemType: 0
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 1
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 2
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 3
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 1
+      gemBaseValue: 5
+    count: 2
+  - gemData:
+      gemType: 3
+      gemBaseValue: 5
+    count: 2
+  - gemData:
+      gemType: 2
+      gemBaseValue: 6
+    count: 1
+  - gemData:
+      gemType: 3
+      gemBaseValue: 6
+    count: 1
+  - gemData:
+      gemType: 0
+      gemBaseValue: 7
+    count: 1

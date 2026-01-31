@@ -14,21 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskEntries:
   - maskPrefab: {fileID: 788597668884690560, guid: cf6f62b4051884f94a6ea310f9b7b031, type: 3}
-    spawnPosition: {x: -1, y: 2.5, z: 0}
+    spawnPosition: {x: 0.03, y: -2.49, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: 1, y: 2.5, z: 0}
+    spawnPosition: {x: -1.16, y: 2.31, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
-    spawnPosition: {x: -1, y: 1, z: 0}
+    spawnPosition: {x: -1.16, y: 1.5, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
-    spawnPosition: {x: 1, y: 1, z: 0}
+    spawnPosition: {x: 1.2, y: 0.35, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: c6822ef9bb3f04894b4aeb59d8a2a032, type: 3}
-    spawnPosition: {x: 1.2, y: -1.5, z: 0}
+    spawnPosition: {x: 1.18, y: -1.62, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 74a318f36ff324524a80a890676fd3ae, type: 3}
-    spawnPosition: {x: -1, y: -0.3, z: 0}
+    spawnPosition: {x: 1.5, y: 1.96, z: 0}
   - maskPrefab: {fileID: 788597668884690560, guid: 704a112ba82dc4cdd91a1de061f7b24b, type: 3}
-    spawnPosition: {x: -0.8, y: -1.8, z: 0}
-  maxMaskBox1: 3
-  maxMaskBox2: 4
+    spawnPosition: {x: -0.76, y: 0.28, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 904e894e961bd41fb9754d57ffcd430b, type: 3}
+    spawnPosition: {x: -1.16, y: -2.48, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 704a112ba82dc4cdd91a1de061f7b24b, type: 3}
+    spawnPosition: {x: -0.77, y: -1.27, z: 0}
+  - maskPrefab: {fileID: 788597668884690560, guid: 71042352f81034c668b8598fbb048e6f, type: 3}
+    spawnPosition: {x: 0.35, y: 1.96, z: 0}
+  maxMaskBox1: 5
+  maxMaskBox2: 5
   prefabLibrary:
   - gemType: 0
     prefab: {fileID: 4338577786130136374, guid: 428417201529943c2ab476047adf39ef, type: 3}
@@ -39,51 +45,67 @@ MonoBehaviour:
   - gemType: 3
     prefab: {fileID: 4338577786130136374, guid: 5ce93bbd7db0b46deb9cbe78eeefe302, type: 3}
   entries:
-  - position: {x: 3.23, y: -2.45, z: 0}
-    gemData:
-      gemType: 1
-      gemBaseValue: 3
-  - position: {x: -0.99, y: 0.55, z: 0}
-    gemData:
-      gemType: 2
-      gemBaseValue: 2
-  - position: {x: -3.24, y: -1.69, z: 0}
-    gemData:
-      gemType: 3
-      gemBaseValue: 3
-  - position: {x: -2.9, y: -3.5, z: 0}
-    gemData:
-      gemType: 1
-      gemBaseValue: 3
-  - position: {x: 1.8, y: 0.81, z: 0}
-    gemData:
+  - gemData:
       gemType: 0
       gemBaseValue: 2
-  - position: {x: 3, y: -0.8000031, z: 0}
-    gemData:
+    count: 4
+  - gemData:
+      gemType: 1
+      gemBaseValue: 2
+    count: 5
+  - gemData:
       gemType: 2
-      gemBaseValue: 5
-  - position: {x: 0.01, y: -3.52, z: 0}
-    gemData:
+      gemBaseValue: 2
+    count: 5
+  - gemData:
       gemType: 3
+      gemBaseValue: 2
+    count: 4
+  - gemData:
+      gemType: 0
       gemBaseValue: 3
-  - position: {x: 1.599998, y: -2.400002, z: 0}
-    gemData:
+    count: 3
+  - gemData:
       gemType: 1
       gemBaseValue: 3
-  - position: {x: -3, y: 0.44, z: 0}
-    gemData:
+    count: 2
+  - gemData:
+      gemType: 2
+      gemBaseValue: 3
+    count: 2
+  - gemData:
+      gemType: 3
+      gemBaseValue: 3
+    count: 3
+  - gemData:
+      gemType: 0
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 1
+      gemBaseValue: 4
+    count: 3
+  - gemData:
+      gemType: 2
+      gemBaseValue: 4
+    count: 3
+  - gemData:
+      gemType: 3
+      gemBaseValue: 4
+    count: 2
+  - gemData:
+      gemType: 1
+      gemBaseValue: 5
+    count: 1
+  - gemData:
+      gemType: 3
+      gemBaseValue: 5
+    count: 1
+  - gemData:
+      gemType: 2
+      gemBaseValue: 6
+    count: 1
+  - gemData:
       gemType: 3
       gemBaseValue: 6
-  - position: {x: -1.43, y: -2.45, z: 0}
-    gemData:
-      gemType: 1
-      gemBaseValue: 5
-  - position: {x: 2.06, y: -3.56, z: 0}
-    gemData:
-      gemType: 2
-      gemBaseValue: 4
-  - position: {x: 0.37, y: -0.7, z: 0}
-    gemData:
-      gemType: 0
-      gemBaseValue: 4
+    count: 1

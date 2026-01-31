@@ -6,6 +6,6 @@ using System;
 public class GemBuff
 {
     public GemType gemType;
-    public int value;
+    public float value;
     public GemBuffType gemBuffType;
 }
