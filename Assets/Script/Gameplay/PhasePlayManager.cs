@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.Security.Cryptography;
 using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
 
 public class PhasePlayManager : Singleton<PhasePlayManager>
 {
@@ -53,6 +54,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
 
     [Header("Status")]
     [SerializeField] private Image timerFillBar;
+    [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private float timeRemaining = 30f;
     [SerializeField] private float maxTime = 30f;
     //sprivate bool _isTimerRunning = false;
@@ -70,6 +72,8 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         timeRemaining = maxTime;
         _currentLevelData = GamePlayManager.Instance.CurrentLevelData;
         currentBuffs = new();
+        _coverageResults = new();
+        timerText.text = $"{(int)maxTime}s";
 
         for (int i = 0; i < PhaseSelectManager.Instance.Cards.Count; i++)
         {
@@ -105,11 +109,13 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         {
             timeRemaining -= Time.deltaTime;
             timerFillBar.fillAmount = timeRemaining / maxTime;
+            timerText.text = $"{(int)timeRemaining}s";
 
             return;
         }
 
         timeRemaining = 0;
+        timerText.text = $"{(int)timeRemaining}s";
         if (timerFillBar != null) timerFillBar.fillAmount = 0;
 
         // Tự động kết thúc trò chơi khi hết giờ
@@ -173,7 +179,7 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         {
             if (!IsObjectCovered(obj))
             {
-                DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+                DOVirtual.DelayedCall(Random.Range(0f, 0.6f), () =>
                 {
                     obj.transform.DOScale(0, 0.5f).SetEase(Ease.InBack);
                 });
@@ -215,7 +221,20 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
         GamePlayManager.Instance.StateHeath();
 
         yield return new WaitForSeconds(5f);
+
+        foreach (var obj in objects) if (obj != null) Destroy(obj.gameObject);
+        objects.Clear();
+        foreach (var m in masks)
+        {
+            if (m != null) Destroy(m.gameObject);
+        }
+
         GamePlayManager.Instance.GoToSelectMask();
+
+
+
+
+
     }
 
     private IEnumerator ProcessScoreGroup(List<ObjectItem> items, bool isPlayer)
@@ -272,26 +291,29 @@ public class PhasePlayManager : Singleton<PhasePlayManager>
     {
         foreach (var obj in objects)
         {
-            Rigidbody2D rb = obj.Body;
-            if (rb == null) continue;
+            DOVirtual.DelayedCall(Random.Range(0f, 0.5f), () =>
+            {
+                Rigidbody2D rb = obj.Body;
+                if (rb == null) return;
 
-            // Kích hoạt vật lý
-            rb.simulated = true;
-            rb.velocity = Vector2.zero;
+                // Kích hoạt vật lý
+                rb.simulated = true;
+                rb.velocity = Vector2.zero;
 
-            // Tạo hướng bắn ngẫu nhiên 360 độ
-            float angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            Vector2 forceDir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                // Tạo hướng bắn ngẫu nhiên 360 độ
+                float angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                Vector2 forceDir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
-            // Đẩy nhẹ vị trí ban đầu để tránh kẹt collider tại tâm
-            obj.transform.position = center + (Vector3)forceDir * UnityEngine.Random.Range(0.1f, 2f);
+                // Đẩy nhẹ vị trí ban đầu để tránh kẹt collider tại tâm
+                obj.transform.position = center + (Vector3)forceDir * UnityEngine.Random.Range(0.1f, 2f);
 
-            // Tác động lực văng và lực xoay
-            rb.AddForce(forceDir * UnityEngine.Random.Range(4f, 8f), ForceMode2D.Impulse);
-            rb.AddTorque(UnityEngine.Random.Range(-10f, 10f), ForceMode2D.Impulse);
+                // Tác động lực văng và lực xoay
+                rb.AddForce(forceDir * UnityEngine.Random.Range(4f, 8f), ForceMode2D.Impulse);
+                rb.AddTorque(UnityEngine.Random.Range(-10f, 10f), ForceMode2D.Impulse);
+            });
         }
 
-        DOVirtual.DelayedCall(3f, () => {
+        DOVirtual.DelayedCall(1f, () => {
             // Logic thực thi tại đây
             foreach (var obj in objects)
             {

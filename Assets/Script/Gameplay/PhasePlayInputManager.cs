@@ -89,10 +89,12 @@ public class PhasePlayInputManager : MonoBehaviour
     {
         foreach (ObjectMask mask in PhasePlayManager.Instance.Masks)
         {
+            if (mask == null) continue;
             mask.HideBound();
         }
         foreach (ObjectItem obj in PhasePlayManager.Instance.Objects)
         {
+            if (obj == null) continue;
             obj.HideBound();
         }
     }

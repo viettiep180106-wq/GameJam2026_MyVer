@@ -16,6 +16,18 @@ PrefabInstance:
       propertyPath: size.y
       value: 1.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1658784122204948642, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
+      propertyPath: _lineColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658784122204948642, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
+      propertyPath: _lineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658784122204948642, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
+      propertyPath: _lineColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1924878065877407311, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0.7
@@ -75,6 +87,10 @@ PrefabInstance:
     - target: {fileID: 6700025887298109941, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
       propertyPath: m_Size.y
       value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098722187400034788, guid: f87b63b1e85f345528c57318ad58079e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

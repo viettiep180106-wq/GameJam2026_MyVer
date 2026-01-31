@@ -12,13 +12,13 @@ public class PhaseSelectManager : Singleton<PhaseSelectManager>
     public Sprite enableSprite;
 
     [Header("Box")]
-    [SerializeField] private BoxMaskSlot boxMaskSlot1;
-    [SerializeField] private BoxMaskSlot boxMaskSlot2;
+    // [SerializeField] private BoxMaskSlot boxMaskSlot1;
+    // [SerializeField] private BoxMaskSlot boxMaskSlot2;
     [SerializeField] private Transform nextPhaseBoxMaskSlot;
 
     [SerializeField] private Transform maskParent;
 
-    [SerializeField] private List<MaskDrag> _spawnedMasks = new();
+    //[SerializeField] private List<MaskDrag> _spawnedMasks = new();
 
     private int _totalMarkNeeded;
     private int _currentMarkInBox = 0;
@@ -33,10 +33,10 @@ public class PhaseSelectManager : Singleton<PhaseSelectManager>
     public List<Card> Cards => cards;
     [SerializeField] private int cardsToSpawn = 3;
 
-    public void Awake()
-    {
-        startButton.onClick.AddListener(OnStartButton);
-    }
+    // public void Awake()
+    // {
+    //     startButton.onClick.AddListener(OnStartButton);
+    // }
 
     public void Init()
     {
@@ -61,6 +61,15 @@ public class PhaseSelectManager : Singleton<PhaseSelectManager>
         SpawnRandomCards();
 
         _isSelectionStart = true;
+
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            _isSelectionStart = false;
+            TransferMasksToPlayPhase();
+            GamePlayManager.Instance.GoToPlay();
+        });
+        // new
+
     }
 
     private void SpawnRandomCards()
@@ -96,58 +105,58 @@ public class PhaseSelectManager : Singleton<PhaseSelectManager>
         }
     }
 
-    void OnStartButton()
-    {
-        _isSelectionStart = false;
-        TransferMasksToPlayPhase();
-        GamePlayManager.Instance.GoToPlay();
-    }
+    // void OnStartButton()
+    // {
+    //     _isSelectionStart = false;
+    //     TransferMasksToPlayPhase();
+    //     GamePlayManager.Instance.GoToPlay();
+    // }
 
     public void TransferMasksToPlayPhase()
     {
-        // Lấy danh sách các Mask đang là con của BoxMaskSlot1
-        // Giả định boxSlot1 là RectTransform/Transform đã serialize
-        MaskDrag[] masksInBox = boxMaskSlot1.GetComponentsInChildren<MaskDrag>();
+        // // Lấy danh sách các Mask đang là con của BoxMaskSlot1
+        // // Giả định boxSlot1 là RectTransform/Transform đã serialize
+        // // MaskDrag[] masksInBox = boxMaskSlot1.GetComponentsInChildren<MaskDrag>();
 
-        foreach (MaskDrag mask in masksInBox)
-        {
-            // Lưu lại localPosition hiện tại trước khi đổi cha
-            Vector3 savedLocalPos = mask.transform.localPosition;
+        // foreach (MaskDrag mask in masksInBox)
+        // {
+        //     // Lưu lại localPosition hiện tại trước khi đổi cha
+        //     Vector3 savedLocalPos = mask.transform.localPosition;
 
-            // Đổi sang Parent mới (Masks container của PlayPhase)
-            mask.transform.SetParent(nextPhaseBoxMaskSlot);
+        //     // Đổi sang Parent mới (Masks container của PlayPhase)
+        //     mask.transform.SetParent(nextPhaseBoxMaskSlot);
 
-            // Gán lại localPosition để giữ đúng vị trí tương đối trong hệ tọa độ mới
-            mask.transform.localPosition = savedLocalPos;
+        //     // Gán lại localPosition để giữ đúng vị trí tương đối trong hệ tọa độ mới
+        //     mask.transform.localPosition = savedLocalPos;
 
-            // Vô hiệu hóa script Drag của Selection Phase nếu cần
-            // mask.enabled = false;
-        }
+        //     // Vô hiệu hóa script Drag của Selection Phase nếu cần
+        //     // mask.enabled = false;
+        // }
     }
 
-    void OnEnable()
-    {
-        if (GamePlayManager.Instance.CurrentPhase != GamePhase.Select) return;
+    // void OnEnable()
+    // {
+    //     if (GamePlayManager.Instance.CurrentPhase != GamePhase.Select) return;
 
-        _isSelectionStart = false;
-        UpdateStartButton(false);
-        var data = GamePlayManager.Instance.CurrentLevelData;
-        Debug.Log("0");
-        if (data != null) InitPhase(data);
-        _isSelectionStart = true;
-    }
+    //     _isSelectionStart = false;
+    //     // UpdateStartButton(false);
+    //     var data = GamePlayManager.Instance.CurrentLevelData;
+    //     Debug.Log("0");
+    //     if (data != null) InitPhase(data);
+    //     _isSelectionStart = true;
+    // }
 
     private void InitPhase(LevelData data)
     {
-        _currentMarkInBox = 0;
+        // _currentMarkInBox = 0;
 
         // 1. Setup Boxes
-        boxMaskSlot1.Init(data.maxMaskBox1);
-        boxMaskSlot2.Init(data.maxMaskBox2);
-        _totalMarkNeeded = data.maxMaskBox1 + data.maxMaskBox2;
+        // boxMaskSlot1.Init(data.maxMaskBox1);
+        // boxMaskSlot2.Init(data.maxMaskBox2);
+        // _totalMarkNeeded = data.maxMaskBox1 + data.maxMaskBox2;
 
         // 2. Spawn Masks
-        ClearExistingMasks();
+        // ClearExistingMasks();
 
         if (data.maskEntries != null)
         {
@@ -158,61 +167,61 @@ public class PhaseSelectManager : Singleton<PhaseSelectManager>
                 newMask.transform.SetParent(maskParent);
                 newMask.transform.localPosition = entry.spawnPosition;
 
-                MaskDrag dragComp = newMask.GetComponent<MaskDrag>();
-                if (dragComp == null) dragComp = newMask.gameObject.AddComponent<MaskDrag>();
+                // MaskDrag dragComp = newMask.GetComponent<MaskDrag>();
+                // if (dragComp == null) dragComp = newMask.gameObject.AddComponent<MaskDrag>();
 
-                dragComp.SaveStartState();
-                _spawnedMasks.Add(dragComp);
+                // dragComp.SaveStartState();
+                // _spawnedMasks.Add(dragComp);
             }
         }
 
-        UpdateUI();
+        // UpdateUI();
     }
 
-    private void ClearExistingMasks()
-    {
-        foreach (var m in _spawnedMasks)
-        {
-            if (m != null) Destroy(m.gameObject);
-        }
-        _spawnedMasks.Clear();
-    }
+    // private void ClearExistingMasks()
+    // {
+    //     foreach (var m in _spawnedMasks)
+    //     {
+    //         if (m != null) Destroy(m.gameObject);
+    //     }
+    //     _spawnedMasks.Clear();
+    // }
 
-    public void OnMarkAdded()
-    {
-        _currentMarkInBox++;
-        UpdateUI();
-    }
+    // public void OnMarkAdded()
+    // {
+    //     _currentMarkInBox++;
+    //     UpdateUI();
+    // }
 
-    public void OnMarkRemoved()
-    {
-        _currentMarkInBox--;
-        UpdateUI();
-    }
+    // public void OnMarkRemoved()
+    // {
+    //     _currentMarkInBox--;
+    //     UpdateUI();
+    // }
 
-    private void UpdateUI()
-    {
-        bool canStart = _currentMarkInBox >= _totalMarkNeeded;
-        startButton.interactable = canStart;
-        startImage.sprite = canStart ? enableSprite : disableSprite;
-    }
+    // private void UpdateUI()
+    // {
+    //     bool canStart = _currentMarkInBox >= _totalMarkNeeded;
+    //     startButton.interactable = canStart;
+    //     startImage.sprite = canStart ? enableSprite : disableSprite;
+    // }
 
     // Helper để MarkDrag kiểm tra va chạm
-    public List<BoxMaskSlot> GetActiveBoxes()
-    {
-        return new List<BoxMaskSlot> { boxMaskSlot1, boxMaskSlot2 };
-    }
+    // public List<BoxMaskSlot> GetActiveBoxes()
+    // {
+    //     return new List<BoxMaskSlot> { boxMaskSlot1, boxMaskSlot2 };
+    // }
 
-    public void OnClickStart()
-    {
-        GamePlayManager.Instance.ChangePhase(GamePhase.Play);
-    }
+    // public void OnClickStart()
+    // {
+    //     GamePlayManager.Instance.ChangePhase(GamePhase.Play);
+    // }
 
-    void UpdateStartButton(bool enable)
-    {
-        startButton.interactable = enable;
-        startImage.sprite = enable ? enableSprite : disableSprite;
-    }
+    // void UpdateStartButton(bool enable)
+    // {
+    //     startButton.interactable = enable;
+    //     startImage.sprite = enable ? enableSprite : disableSprite;
+    // }
 }
 
 // using UnityEngine;
