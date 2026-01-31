@@ -14,8 +14,8 @@ public class ObjectMask : MonoBehaviour
     [Space(5)]
     private float _gridSize;
 
-    void Start() {
-        _gridSize = CoverManager.Instance.CellSize;
+    void OnEnable() {
+        _gridSize = PhasePlayManager.Instance.CellSize;
         boxCollider.size = size;
         SnapToGrid();
     }

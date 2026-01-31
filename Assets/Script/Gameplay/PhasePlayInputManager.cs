@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class InputManager : MonoBehaviour
+public class PhasePlayInputManager : MonoBehaviour
 {
     [SerializeField] private LayerMask objectMaskLayer;
 
@@ -12,15 +12,15 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Vector2 _minBound;
     [SerializeField] private Vector2 _maxBound;
 
-    private void Start()
+    private void OnEnable()
     {
-        _minBound = CoverManager.Instance.MinBound;
-        _maxBound = CoverManager.Instance.MaxBound;
+        _minBound = PhasePlayManager.Instance.MinBound;
+        _maxBound = PhasePlayManager.Instance.MaxBound;
     }
 
     private void Update()
     {
-        if (!CoverManager.Instance.IsGameStart) return;
+        if (!PhasePlayManager.Instance.IsGameStart) return;
 
         if (Input.GetMouseButtonDown(0)) PointerDown();
         if (Input.GetMouseButton(0)) PointerHold();
@@ -71,11 +71,11 @@ public class InputManager : MonoBehaviour
 
     private void ShowAllBound()
     {
-        foreach (ObjectMask mask in CoverManager.Instance.Masks)
+        foreach (ObjectMask mask in PhasePlayManager.Instance.Masks)
         {
             mask.ShowBound();
         }
-        foreach (ObjectItem obj in CoverManager.Instance.Objects)
+        foreach (ObjectItem obj in PhasePlayManager.Instance.Objects)
         {
             obj.ShowBound();
         }
@@ -83,11 +83,11 @@ public class InputManager : MonoBehaviour
 
     private void HideAllBound()
     {
-        foreach (ObjectMask mask in CoverManager.Instance.Masks)
+        foreach (ObjectMask mask in PhasePlayManager.Instance.Masks)
         {
             mask.HideBound();
         }
-        foreach (ObjectItem obj in CoverManager.Instance.Objects)
+        foreach (ObjectItem obj in PhasePlayManager.Instance.Objects)
         {
             obj.HideBound();
         }

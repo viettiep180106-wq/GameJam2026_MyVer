@@ -6,6 +6,11 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "NewLevel", menuName = "ScriptableObjects/LevelData")]
 public class LevelData : ScriptableObject
 {
+    [Header("Selection")]
+    public List<MaskEntry> maskEntries;
+    public int maxMaskBox1;
+    public int maxMaskBox2;
+
     [Header("Library")]
     public List<GemPrefabMapping> prefabLibrary;
 

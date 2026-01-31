@@ -23,17 +23,20 @@ public class ObjectItem : MonoBehaviour
     [SerializeField] private Color _boundaryColor_unselected = Color.red;
     [SerializeField] private Color _pointColor = Color.red;
 
+    [SerializeField] private Rigidbody2D body;
+    public Rigidbody2D Body => body;
+
     public void Init(ObjectItemGem objectItemGem)
     {
         this.objectItemGem = objectItemGem;
-        transform.localScale = Vector2.one * (2f + 0.1f * GemBaseValue);
+        transform.localScale = Vector2.one * (2.5f + 0.9f * GemBaseValue);
         gemBaseValueTMP.text = GemBaseValue.ToString();
-        gemBaseValueTMP.fontSize = 0.1f * (2f + 0.1f * GemBaseValue);
+        gemBaseValueTMP.fontSize = 0.1f * (2f + 0.9f * GemBaseValue);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _cellSize = CoverManager.Instance.CellSize;
+        _cellSize = PhasePlayManager.Instance.CellSize;
     }
 
     private void Update()
@@ -47,7 +50,7 @@ public class ObjectItem : MonoBehaviour
         Vector2[] vertices = GetWorldPoints();
 
         // Cập nhật LineRenderer
-        Color _boundaryColor = CoverManager.Instance.IsObjectCovered(this) ?
+        Color _boundaryColor = PhasePlayManager.Instance.IsObjectCovered(this) ?
                 _boundaryColor_selected : _boundaryColor_unselected;
         _lineRenderer.startWidth = _boundaryWidth;
         _lineRenderer.endWidth = _boundaryWidth;
