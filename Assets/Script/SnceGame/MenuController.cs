@@ -17,6 +17,6 @@ public class MenuController : Singleton<MenuController>
     public void PlayGame()
     {
         if (SceneFlowManager.Instance.IsRestart == true) SceneFlowManager.Instance.IsRestart = false;
-        SceneFlowManager.Instance.LoadScene(SceneState.SampleScene);
+        SceneFlowManager.Instance.LoadScene(SceneState.GamePlay);
     }
 }

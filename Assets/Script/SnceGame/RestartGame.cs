@@ -16,7 +16,7 @@ public class RestartGame : MonoBehaviour
     }
     public void RestartScene()
     {
-        SceneFlowManager.Instance.LoadScene(SceneState.SampleScene);
+        SceneFlowManager.Instance.LoadScene(SceneState.PreGameplayScene);
     }
     private void Update()
     {
