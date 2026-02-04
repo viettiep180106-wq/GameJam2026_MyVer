@@ -11,7 +11,7 @@ public enum GamePhase
     Play,
     Buff,
     ResultWin,
-    ResultLose,
+    ResultLose
 }
 
 [Serializable]
@@ -76,11 +76,20 @@ public class GamePlayManager : Singleton<GamePlayManager>
 
     private void CheckGameOver()
     {
-        if (enemyHp <= 0) GoToResultWin(); // Thắng Run
-        else if (hp <= 0) GoToResultLose(); // Thua Run
+        if (enemyHp <= 0)
+        {
+            GoToResultWin(); // Thắng Run
+            SceneFlowManager.Instance.IsRestart = true;
+        }
+        else if (hp <= 0)
+        {
+            GoToResultLose(); // Thua Run
+            SceneFlowManager.Instance.IsRestart = true;
+            Debug.Log("OK");
+        }
         else
         {
-            DOVirtual.DelayedCall(1f, () => {GamePlayManager.Instance.GoToSelectMask(); });
+            DOVirtual.DelayedCall(1f, () => { GamePlayManager.Instance.GoToSelectMask(); });
         }
     }
 
